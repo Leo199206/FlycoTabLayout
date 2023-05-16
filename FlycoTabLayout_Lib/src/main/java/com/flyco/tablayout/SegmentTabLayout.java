@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -21,11 +22,13 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.utils.FragmentChangeManager;
+import com.flyco.tablayout.utils.TabLayoutHelper;
 import com.flyco.tablayout.utils.UnreadMsgUtils;
 import com.flyco.tablayout.widget.MsgView;
 
@@ -161,6 +164,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         ta.recycle();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void setTabData(String[] titles) {
         if (titles == null || titles.length == 0) {
             throw new IllegalStateException("Titles can not be NULL or EMPTY !");
@@ -172,12 +176,14 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
     }
 
     /** 关联数据支持同时切换fragments */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void setTabData(String[] titles, FragmentActivity fa, int containerViewId, ArrayList<Fragment> fragments) {
         mFragmentChangeManager = new FragmentChangeManager(fa.getSupportFragmentManager(), containerViewId, fragments);
         setTabData(titles);
     }
 
     /** 更新数据 */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void notifyDataSetChanged() {
         mTabsContainer.removeAllViews();
         this.mTabCount = mTitles.length;
@@ -192,25 +198,30 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
     }
 
     /** 创建并添加tab */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void addTab(final int position, View tabView) {
         TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
         tv_tab_title.setText(mTitles[position]);
-
-        tabView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = (Integer) v.getTag();
-                if (mCurrentTab != position) {
-                    setCurrentTab(position);
-                    if (mListener != null) {
-                        mListener.onTabSelect(position);
-                    }
-                } else {
-                    if (mListener != null) {
-                        mListener.onTabReselect(position);
-                    }
-                }
-            }
+//
+//        tabView.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int position = (Integer) v.getTag();
+//                if (mCurrentTab != position) {
+//                    setCurrentTab(position);
+//                    if (mListener != null) {
+//                        mListener.onTabSelect(position);
+//                    }
+//                } else {
+//                    if (mListener != null) {
+//                        mListener.onTabReselect(position);
+//                    }
+//                }
+//            }
+//        });
+        TabLayoutHelper.setGestureDetector(tabView, integer -> mListener, o -> mCurrentTab, integer -> {
+            setCurrentTab(integer.intValue());
+            return null;
         });
 
         /** 每一个Tab的布局参数 */

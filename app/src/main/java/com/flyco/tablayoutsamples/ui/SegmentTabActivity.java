@@ -3,6 +3,7 @@ package com.flyco.tablayoutsamples.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -82,6 +83,11 @@ public class SegmentTabActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselect(int position) {
+            }
+
+            @Override
+            public void onTabDoubleClick(int position) {
+                Toast.makeText(SegmentTabActivity.this, "我是双击事件", Toast.LENGTH_SHORT).show();
             }
         });
 

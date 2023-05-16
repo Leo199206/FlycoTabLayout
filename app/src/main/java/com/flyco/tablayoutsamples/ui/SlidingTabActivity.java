@@ -23,10 +23,7 @@ import java.util.ArrayList;
 public class SlidingTabActivity extends AppCompatActivity implements OnTabSelectListener {
     private Context mContext = this;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
-    private final String[] mTitles = {
-            "热门", "iOS", "Android"
-            , "前端", "后端", "设计", "工具资源"
-    };
+    private final String[] mTitles = {"热门", "iOS", "Android", "前端", "后端", "设计", "工具资源"};
     private MyPagerAdapter mAdapter;
 
     @Override
@@ -96,7 +93,8 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
 //        tabLayout_7.setOnTabSelectListener(new OnTabSelectListener() {
 //            @Override
 //            public void onTabSelect(int position) {
-//                Toast.makeText(mContext, "onTabSelect&position--->" + position, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "onTabSelect&position--->" + position, Toast
+//                .LENGTH_SHORT).show();
 //            }
 //
 //            @Override
@@ -116,6 +114,11 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
     @Override
     public void onTabReselect(int position) {
         Toast.makeText(mContext, "onTabReselect&position--->" + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTabDoubleClick(int position) {
+        Toast.makeText(this, "我是双击事件", Toast.LENGTH_SHORT).show();
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {

@@ -3,7 +3,9 @@ package com.flyco.tablayoutsamples.ui;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -29,11 +31,9 @@ public class CommonTabActivity extends AppCompatActivity {
     private ArrayList<Fragment> mFragments2 = new ArrayList<>();
 
     private String[] mTitles = {"首页", "消息", "联系人", "更多"};
-    private int[] mIconUnselectIds = {
-            R.mipmap.tab_home_unselect, R.mipmap.tab_speech_unselect,
+    private int[] mIconUnselectIds = {R.mipmap.tab_home_unselect, R.mipmap.tab_speech_unselect,
             R.mipmap.tab_contact_unselect, R.mipmap.tab_more_unselect};
-    private int[] mIconSelectIds = {
-            R.mipmap.tab_home_select, R.mipmap.tab_speech_select,
+    private int[] mIconSelectIds = {R.mipmap.tab_home_select, R.mipmap.tab_speech_select,
             R.mipmap.tab_contact_select, R.mipmap.tab_more_select};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private View mDecorView;
@@ -101,11 +101,18 @@ public class CommonTabActivity extends AppCompatActivity {
                 mTabLayout_6.setCurrentTab(position);
                 mTabLayout_7.setCurrentTab(position);
                 mTabLayout_8.setCurrentTab(position);
+                Log.d("setOnTabSelectListener" ,"onTabSelect 我是单击事件 position="+position);
             }
 
             @Override
             public void onTabReselect(int position) {
 
+            }
+
+            @Override
+            public void onTabDoubleClick(int position) {
+                Toast.makeText(mContext, "我是双击事件", Toast.LENGTH_SHORT).show();
+                Log.d("setOnTabSelectListener" ,"onTabDoubleClick 我是双击事件 position="+position);
             }
         });
         mTabLayout_8.setCurrentTab(2);
@@ -148,6 +155,8 @@ public class CommonTabActivity extends AppCompatActivity {
             @Override
             public void onTabSelect(int position) {
                 mViewPager.setCurrentItem(position);
+                Log.d("setOnTabSelectListener" ,"onTabSelect 我是单击事件 position="+position);
+                Toast.makeText(mContext, "我是单击事件", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -157,11 +166,18 @@ public class CommonTabActivity extends AppCompatActivity {
 //                    UnreadMsgUtils.show(mTabLayout_2.getMsgView(0), mRandom.nextInt(100) + 1);
                 }
             }
+
+            @Override
+            public void onTabDoubleClick(int position) {
+                Log.d("setOnTabSelectListener" ,"onTabDoubleClick 我是双击事件 position="+position);
+                Toast.makeText(mContext, "我是双击事件", Toast.LENGTH_SHORT).show();
+            }
         });
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
 
             }
 
